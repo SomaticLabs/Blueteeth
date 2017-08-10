@@ -72,6 +72,13 @@ public class BlueteethManager {
     }
 
     /**
+     * Allow access to underlying `BluetoothAdapter` with getter method
+     */
+    public BluetoothAdapter getmBLEAdapter() {
+        return mBLEAdapter;
+    }
+
+    /**
      * Set the global instance returned from {@link #with}.
      * <p>
      * This method must be called before any calls to {@link #with} and may only be called once.
