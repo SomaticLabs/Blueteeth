@@ -184,14 +184,14 @@ public class BlueteethManager {
     /**
      * Scans for nearby peripherals (no timeout) and fills the mScannedPeripherals ArrayList.
      */
-    public void scanForPeripherals() {
+    public synchronized void scanForPeripherals() {
         Timber.d("scanForPeripherals");
         clearPeripherals();
         mIsScanning = true;
         mBLEAdapter.startLeScan(mBLEScanCallback);
     }
 
-    private void clearPeripherals() {
+    private synchronized void clearPeripherals() {
         // TODO: Need to be a bit clever about how these are handled
         // TODO: If this is the last reference, close it, otherwise don't?
         for (BlueteethDevice blueteethDevice : mScannedPeripherals) {
@@ -204,7 +204,7 @@ public class BlueteethManager {
     /**
      * Stops ongoing scan process
      */
-    public void stopScanForPeripherals() {
+    public synchronized void stopScanForPeripherals() {
         Timber.d("stopScanForPeripherals");
         mIsScanning = false;
         mBLEAdapter.stopLeScan(mBLEScanCallback);

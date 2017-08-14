@@ -149,7 +149,7 @@ public class BlueteethDevice {
 
     // Autoreconnect == true is a slow connection, false is fast
     // https://stackoverflow.com/questions/22214254/android-ble-connect-slowly
-    public boolean connect(boolean autoReconnect) {
+    public synchronized boolean connect(boolean autoReconnect) {
         if (mIsConnected) {
             Timber.d("connect: Already connected, returning - disregarding autoReconnect");
             if (mConnectionChangedListener != null) {
@@ -171,7 +171,7 @@ public class BlueteethDevice {
      * @param timeout
      * @return
      */
-    public boolean connect(boolean autoReconnect, int timeout) {
+    public synchronized boolean connect(boolean autoReconnect, int timeout) {
         if (mIsConnected) {
             Timber.d("connect: Already connected, returning - disregarding autoReconnect");
             if (mConnectionChangedListener != null) {
@@ -241,7 +241,7 @@ public class BlueteethDevice {
         return connect(autoReconnect, onConnectionChangedListener, timeout);
     }
 
-    public boolean disconnect() {
+    public synchronized boolean disconnect() {
         if (mBluetoothGatt == null) {
             Timber.e("disconnect: Cannot disconnect - GATT is null");
             return false;
@@ -261,7 +261,7 @@ public class BlueteethDevice {
         return disconnect();
     }
 
-    public boolean discoverServices(OnServicesDiscoveredListener onServicesDiscoveredListener) {
+    public synchronized boolean discoverServices(OnServicesDiscoveredListener onServicesDiscoveredListener) {
         Timber.d("discoverServices: Attempting to discover services");
         if (!mIsConnected || mBluetoothGatt == null) {
             Timber.e("discoverServices: Device is not connected, or GATT is null");
@@ -273,7 +273,7 @@ public class BlueteethDevice {
         return true;
     }
 
-    public boolean discoverServices(OnServicesDiscoveredListener onServicesDiscoveredListener, int timeout) {
+    public synchronized boolean discoverServices(OnServicesDiscoveredListener onServicesDiscoveredListener, int timeout) {
         Timber.d("discoverServices: Attempting to discover services");
         if (!mIsConnected || mBluetoothGatt == null) {
             Timber.e("discoverServices: Device is not connected, or GATT is null");
@@ -303,7 +303,7 @@ public class BlueteethDevice {
         return true;
     }
 
-    public boolean readCharacteristic(@NonNull UUID characteristic, @NonNull UUID service, OnCharacteristicReadListener onCharacteristicReadListener) {
+    public synchronized boolean readCharacteristic(@NonNull UUID characteristic, @NonNull UUID service, OnCharacteristicReadListener onCharacteristicReadListener) {
         Timber.d("readCharacteristic: Attempting to read %s", characteristic.toString());
 
         if (!mIsConnected || mBluetoothGatt == null) {
@@ -328,7 +328,7 @@ public class BlueteethDevice {
         return true;
     }
 
-    public boolean readCharacteristic(@NonNull UUID characteristic, @NonNull UUID service, OnCharacteristicReadListener onCharacteristicReadListener, int timeout) {
+    public synchronized boolean readCharacteristic(@NonNull UUID characteristic, @NonNull UUID service, OnCharacteristicReadListener onCharacteristicReadListener, int timeout) {
         Timber.d("readCharacteristic: Attempting to read %s", characteristic.toString());
 
         if (!mIsConnected || mBluetoothGatt == null) {
@@ -371,7 +371,7 @@ public class BlueteethDevice {
         return true;
     }
 
-    public boolean writeCharacteristic(@NonNull byte[] data, @NonNull UUID characteristic, @NonNull UUID service, OnCharacteristicWriteListener onCharacteristicWriteListener) {
+    public synchronized boolean writeCharacteristic(@NonNull byte[] data, @NonNull UUID characteristic, @NonNull UUID service, OnCharacteristicWriteListener onCharacteristicWriteListener) {
         Timber.d("writeCharacteristic: Attempting to write %s to %s", Arrays.toString(data), characteristic.toString());
 
         if (!mIsConnected || mBluetoothGatt == null) {
@@ -397,7 +397,7 @@ public class BlueteethDevice {
         return true;
     }
 
-    public boolean writeCharacteristic(@NonNull byte[] data, @NonNull UUID characteristic, @NonNull UUID service, OnCharacteristicWriteListener onCharacteristicWriteListener, int timeout) {
+    public synchronized boolean writeCharacteristic(@NonNull byte[] data, @NonNull UUID characteristic, @NonNull UUID service, OnCharacteristicWriteListener onCharacteristicWriteListener, int timeout) {
         Timber.d("writeCharacteristic: Attempting to write %s to %s", Arrays.toString(data), characteristic.toString());
 
         if (!mIsConnected || mBluetoothGatt == null) {
